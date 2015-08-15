@@ -73,10 +73,15 @@
             Write-Verbose "SSL validation has been disabled."
         }
         $webCredential = @{login='Login';usernamefld=$Credential.GetNetworkCredential().UserName;passwordfld=$Credential.GetNetworkCredential().Password}
-        switch($BackupRRD)
+        if($BackupRRD)
         {
-            $true {$pfBackupArgs = @{Submit='download&donotbackuprrd=no'}; Write-Verbose "The RRD graphs will backed up."}
-            $false {$pfBackupArgs = @{Submit='download&donotbackuprrd=yes'}; Write-Verbose "The RRD graphs will not be backed up."}
+            $pfBackupArgs = @{Submit='download&donotbackuprrd=no'}
+            Write-Verbose "The RRD graphs will backed up."
+        }
+        else
+        {
+            $pfBackupArgs = @{Submit='download';donotbackuprrd='yes'}
+            Write-Verbose "The RRD graphs will not be backed up."
         }
     }
     Process
